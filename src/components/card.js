@@ -35,11 +35,10 @@ const Card = (article) => {
     authorDiv.appendChild(containerDiv)
     containerDiv.classList.add('img-container')
 
-    let photoImg = document.createElement('div')
+    let photoImg = document.createElement('img')
     containerDiv.appendChild(photoImg)
-    photoImg.textContent = article.authorPhoto
-
-    //authorPhoto is a string, so textContent shows the string and not the actual photo image
+    let imgURL = photoImg.setAttribute('src', article.authorPhoto)
+    photoImg.textContent = imgURL
 
     let authorSp = document.createElement('span')
     authorDiv.appendChild(authorSp)
@@ -58,6 +57,21 @@ const cardAppender = (selector) => {
   // Create a card from each and every article object in the response, using the Card component.
   // Append each card to the element in the DOM that matches the selector passed to the function.
   //
+
+  axios.get("http://localhost:5000/api/articles")
+        .then(response => {
+          // console.log('hello', response.data.articles)
+          let myData = response.data.articles
+          for (let key in myData) {
+            // console.log(myData[key])
+          let currentArray = myData[key];
+          for (let i = 0; i < currentArray.length; i++) {
+            console.log(currentArray[i])
+            let cssSelect = document.querySelector(selector)
+            cssSelect.appendChild(Card(currentArray[i]))
+          }
+          }
+          })
 }
 
 export { Card, cardAppender }
