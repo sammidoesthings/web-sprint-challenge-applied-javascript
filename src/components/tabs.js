@@ -1,3 +1,7 @@
+// import { arrayExpression } from "@babel/types";
+import axios from "axios";
+// import { topics } from "../mocks/data";
+
 const Tabs = (topics) => {
   // TASK 3
   // ---------------------
@@ -7,13 +11,25 @@ const Tabs = (topics) => {
   // The tags used, the hierarchy of elements and their attributes must match the provided markup!
   // The text inside elements will be set using their `textContent` property (NOT `innerText`).
   //
-  // <div class="topics">
-  //   <div class="tab">javascript</div>
-  //   <div class="tab">bootstrap</div>
-  //   <div class="tab">technology</div>
+  // <div class="topics">                     //topDiv
+  //   <div class="tab">javascript</div>      //jsDiv
+  //   <div class="tab">bootstrap</div>       //bootDiv
+  //   <div class="tab">technology</div>      //techDiv
   // </div>
   //
+
+  let topDiv = document.createElement('div');
+  topDiv.classList.add('topics');
+
+  for (let i = 0; i < topics.length; i++) {
+    let repeatDiv = document.createElement('div')
+      topDiv.appendChild(repeatDiv)
+      topDiv.classList.add('tab')
+      repeatDiv.textContent = topics[i]
+  }
+  return topDiv;
 }
+
 
 const tabsAppender = (selector) => {
   // TASK 4
@@ -23,6 +39,19 @@ const tabsAppender = (selector) => {
   // Find the array of topics inside the response, and create the tabs using the Tabs component.
   // Append the tabs to the element in the DOM that matches the selector passed to the function.
   //
+  let topicsArray = [];
+  axios.get("http://localhost:5000/api/topics")
+        .then(response => {
+          topicsArray = response.data;
+          //I literally have no clue what I'm supposed to do here
+          return topicsArray;
+          })
+        
+  const cssSelect = document.querySelector(selector)
+  cssSelect.appendChild(Tabs(topicsArray))
 }
 
+tabsAppender('body')
+
 export { Tabs, tabsAppender }
+

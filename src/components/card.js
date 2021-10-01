@@ -1,3 +1,5 @@
+import axios from "axios";
+
 const Card = (article) => {
   // TASK 5
   // ---------------------
@@ -7,16 +9,44 @@ const Card = (article) => {
   // The text inside elements will be set using their `textContent` property (NOT `innerText`).
   // Add a listener for click events so that when a user clicks on a card, the headline of the article is logged to the console.
   //
-  // <div class="card">
-  //   <div class="headline">{ headline }</div>
-  //   <div class="author">
-  //     <div class="img-container">
-  //       <img src={ authorPhoto }>
+  // <div class="card">                                   //cardDiv
+  //   <div class="headline">{ headline }</div>           //headlineDiv
+  //   <div class="author">                               //authorDiv
+  //     <div class="img-container">                      //containerDiv
+  //       <img src={ authorPhoto }>                      //photoImg
   //     </div>
-  //     <span>By { authorName }</span>
+  //     <span>By { authorName }</span>                   //authorSp
   //   </div>
   // </div>
-  //
+
+    let cardDiv = document.createElement('div')
+    cardDiv.classList.add('card')
+
+    let headlineDiv = document.createElement('div')
+    cardDiv.appendChild(headlineDiv)
+    headlineDiv.classList.add('headline')
+    headlineDiv.textContent = article.headline
+
+    let authorDiv = document.createElement('div')
+    cardDiv.appendChild(authorDiv)
+    authorDiv.classList.add('author')
+
+    let containerDiv = document.createElement('div')
+    authorDiv.appendChild(containerDiv)
+    containerDiv.classList.add('img-container')
+
+    let photoImg = document.createElement('div')
+    containerDiv.appendChild(photoImg)
+    photoImg.textContent = article.authorPhoto
+
+    //authorPhoto is a string, so textContent shows the string and not the actual photo image
+
+    let authorSp = document.createElement('span')
+    authorDiv.appendChild(authorSp)
+    authorSp.textContent = article.authorName
+
+    return cardDiv;
+
 }
 
 const cardAppender = (selector) => {
